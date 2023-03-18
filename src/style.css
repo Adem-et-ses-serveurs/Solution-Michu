@@ -11,8 +11,8 @@ label{
 #top{
     height: 7em;
     text-align: center;
-    border-bottom: orange 1px solid;
-    background-color: rgb(255, 225, 90);
+    border-bottom: rgba(0, 115, 255, 0.648) 10px solid;
+    background-color: rgba(11, 152, 100, 0.674);
     padding-top: 1em;
     margin-bottom: 1em;
     width: 100%;
@@ -20,8 +20,8 @@ label{
 
 #admin {
     text-align: center;
-    border-bottom: orange 1px solid;
-    background-color: rgb(255, 225, 90);
+    border-bottom:  rgba(0, 115, 255, 0.648) 10px solid;
+    background-color: rgba(11, 152, 100, 0.674);
 }
 
 a{
@@ -59,8 +59,8 @@ input, textarea{
 #btnSub{
     display: block;
     width: 102%;
-    background-color: rgb(255, 198, 93);
-    border: 1px solid rgb(255, 130, 13);
+    background-color: rgba(0, 115, 255, 0.648) 3px solid;
+    border: 1px solid  rgba(0, 115, 255, 0.648) 3px solid;
     color: white;
     font-weight: bold;
 }
@@ -73,8 +73,8 @@ form{
     width: 70%;
     padding: 2em 2em;
     margin: 0 auto;
-    background-color: rgb(254, 255, 224);
-    border: rgb(255, 203, 90) 2px solid;
+    background-color: rgba(45, 134, 101, 0.211);
+    border:  rgba(0, 115, 255, 0.648) 3px solid;
     border-radius: 1em;
 }
 body{
@@ -84,7 +84,7 @@ body{
     width: 90%;
     padding: 2em 2em;
     margin: 0 auto;
-    border: rgb(255, 203, 90) 2px solid;
-    background-color: rgb(254, 255, 224);
+    border:  rgba(0, 115, 255, 0.648) 3px solid;
+    background-color: rgba(45, 134, 101, 0.211);
     border-radius: 1em;
 }
