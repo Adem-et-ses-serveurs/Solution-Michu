@@ -9,6 +9,9 @@ const prob = $$("#probleme");
 const bac = $$("#bac");
 const err = $$("#errors");
 
+const tTicket = $$("#ticket");
+let ticket = 0; 
+
 function validNom() {
     let isValid = true;
     if (nom.value === "") {
@@ -121,7 +124,8 @@ function validBac() {
     return isValid;
 } // validBac()
 
-function validateForm() {
+function validateForm(event) {
+    event.preventDefault();
     let isValid = true;
     if (!validNom()) isValid = false;
     if (!validPrenom()) isValid = false;
@@ -148,7 +152,9 @@ function validateForm() {
         
         request.onload = () => {
             response = request.responseText;
-            console.log(response);
+            ticket=response;
+            tTicket.innerHTML="Votre requete a bien été recu avec le numero de tiquet: "+ticket
+            tTicket.style.display="block"
         }
     }
     return isValid;
@@ -164,3 +170,22 @@ bac.onblur = validBac;
 
 const form = $$("#form");
 form.onsubmit = validateForm;
+
+const piece = $$("#piece");
+
+function validPiece() {
+    let isValid = true;
+    if (piece.value == "default"){
+        isValid = false;
+        piece.style.border = "thin solid red";
+        $$("#pieceErr").textContent = "⚠Vous devez sélectionner une pièce."
+        $$("#pieceErr").style.display="block"
+    }
+    else {
+        piece.style.border = "thin solid black";
+        $$("#pieceErr").textContent = "";
+    }
+    return isValid;
+} // validPiece()
+    if (!validPiece()) isValid = false;
+piece.onblur = validPiece;

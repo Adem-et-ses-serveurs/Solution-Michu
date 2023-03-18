@@ -32,6 +32,7 @@ def ajouter():
         "prenom": prenom,
         "courriel": courriel,
         "telephone": telephone,
+        "etat": "consideration",
         "nb_bac": nb_bac,
         "message": message
         })
@@ -51,7 +52,7 @@ def supprimer():
         return Response(satus=401)
 
     try:
-       id = int(resquest.form.get('id'))
+       id = int(request.form.get('id'))
     except:
         return Response(status=400)
 
@@ -70,8 +71,8 @@ def supprimer():
 def get_all():
     autorisation = request.headers.get('Auth')
     print(autorisation)
-    # if autorisation == None:
-    #     return Response(status=401)
+    if autorisation == None:
+        return Response(status=401)
 
     if autorisation in autorises:
         resp = make_response(send_file(fichier, mimetype="application/json"))
