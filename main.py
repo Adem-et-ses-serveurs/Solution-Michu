@@ -4,6 +4,8 @@ import json
 
 fichier = 'tickets.json'
 
+autorises=[]
+
 app = Flask(__name__, template_folder='../Frontend')
 
 @app.route("/ajouter", methods=["POST"])
@@ -38,7 +40,10 @@ def ajouter():
     with open(fichier, 'w') as f:
         f.write(json.dumps(tickets))
 
-    return str(id)
+    resp = Response(str(id))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+
+    return resp
 
 @app.route("/supprimer", methods=["DELETE"])
 def supprimer():
@@ -57,6 +62,8 @@ def supprimer():
 
         del tickets[id]
         
+        with open(fichier, 'w') as f:
+            f.write(json.dumps())
 
 
 @app.route("/get", methods=["GET"])
