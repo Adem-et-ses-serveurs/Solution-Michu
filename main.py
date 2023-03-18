@@ -4,7 +4,7 @@ import json
 
 fichier = 'tickets.json'
 
-app = Flask(__name__, template_folder='.')
+app = Flask(__name__, template_folder='../Frontend')
 
 @app.route("/ajouter", methods=["POST"])
 def ajouter():
@@ -38,7 +38,7 @@ def ajouter():
     with open(fichier, 'w') as f:
         f.write(json.dumps(tickets))
 
-    return str(tickets)
+    return str(id)
 
 @app.route("/supprimer", methods=["DELETE"])
 def supprimer():
@@ -65,4 +65,4 @@ def get_info_test():
         return f.read()
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host="0.0.0.0")
