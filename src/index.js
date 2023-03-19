@@ -172,7 +172,7 @@ function validateForm(event) {
         request.onload = () => {
             response = request.responseText;
             ticket=response;
-            tTicket.innerHTML="Votre requete a bien été recu avec le numero de tiquet: "+ticket
+            tTicket.innerHTML="Votre requete a bien été recu avec le numero de tiquet: "+ticket+1
             tTicket.style.display="block"
         }
 
