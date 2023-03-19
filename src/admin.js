@@ -56,13 +56,13 @@ request.onload = () => {
         <fieldset id="group${ticket.id}" class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'consideration')" ${ticket.etat == 'consideration' ? 'checked' : ''}>
           <input name="group${ticket.id}" type="radio" name="options" id="option1" autocomplete="off"> Considération
-        </label>
+        </label><br>
         <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'travail')" ${ticket.etat == 'travail' ? 'checked' : ''}>
           <input name="group${ticket.id}" type="radio" name="options" id="option2" autocomplete="off"> Travail
-        </label>
+        </label><br>
         <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'fini')" ${ticket.etat == 'fini' ? 'checked' : ''}>
           <input name="group${ticket.id}" type="radio" name="options" id="option3" autocomplete="off"> Complété
-        </label>
+        </label><br>
         <label class="btn btn-secondary">
             <input name="group${ticket.id}" type="radio" name="options" id="option3" autocomplete="off" onclick="supprimer(${ticket.id})"> Rejeter
           </label>

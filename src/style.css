@@ -31,13 +31,14 @@ label{
     /*border-bottom: rgba(0, 115, 255, 0.648) 10px solid;*/
     background-color:  #004a7fd8/*rgba(11, 152, 100, 0.674)*/;
     padding-top: 0;
-    margin-bottom: 1em;
+    margin-bottom: 2em;
     width: 100%;
     padding-bottom: 8px;
 }
 
 #formulaire {
     text-align: center;
+    font-weight: bold;
     font-size: 1.5em;
 }
 
@@ -105,13 +106,13 @@ form{
     width: 70%;
     padding: 2em 2em;
     margin: auto;
-    background-color: #004a7f3f;
+    background-color: #004a7f71;
     border:  rgba(0, 115, 255, 0.648) 3px solid;
     border-radius: 1em;
 }
 body{
     font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(rgba(97, 91, 91, 0.5), rgba(71, 67, 67, 0.5)), url(bkg.jpeg);
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url(bkg.jpeg);
 
     background-repeat: no-repeat;
     background-attachment: fixed;
