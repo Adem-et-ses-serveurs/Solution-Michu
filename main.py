@@ -165,11 +165,6 @@ def modifier():
     with open(fichier, 'w') as f:
         f.write(json.dumps(tickets))
 
-    if etat == "travail":
-        with open('Bon de travail.csv', 'a', newline='') as f:
-            writer = csv.writer(f, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-            writer.writerow([id, adresse.split()[0], ' '.join(adresse.split()[1:]), piece, type_bac])
-
     resp = Response(status=200)
 
     @resp.call_on_close
