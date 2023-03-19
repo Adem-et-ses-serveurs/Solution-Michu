@@ -147,7 +147,7 @@ function validType() {
     if (type.value === "unselected") {
         isValid = false;
         type.style.border = "3px solid rgb(255, 104, 104)";
-        $$("#typeErr").textContent = "⚠Vous devez sélectionner une piece."
+        $$("#typeErr").textContent = "⚠Vous devez sélectionner un bac."
         $$("#typeErr").style.display="block"
     } else {
         type.style.border = "1px solid black";
@@ -155,7 +155,7 @@ function validType() {
         $$("#typeErr").style.display="none"
     }
     return isValid;
-}
+} // validType()
 
 function validateForm(event) {
     event.preventDefault();
