@@ -54,13 +54,13 @@ request.onload = () => {
         <td>${ticket.message}</td>
         <td align="right">
         <fieldset id="group${ticket.id}" class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'consideration')" ${ticket.etat == 'consideration' ? 'checked' : ''}>
+        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'consideration', ${JSON.stringify(ticket).replaceAll('"', "'")})" ${ticket.etat == 'consideration' ? 'checked' : ''}>
           <input name="group${ticket.id}" type="radio" name="options" id="option1" autocomplete="off"> Considération
-        </label><br>
-        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'travail')" ${ticket.etat == 'travail' ? 'checked' : ''}>
+        </label>
+        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'travail', ${JSON.stringify(ticket).replaceAll('"', "'")})" ${ticket.etat == 'travail' ? 'checked' : ''}>
           <input name="group${ticket.id}" type="radio" name="options" id="option2" autocomplete="off"> Travail
-        </label><br>
-        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'fini')" ${ticket.etat == 'fini' ? 'checked' : ''}>
+        </label>
+        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'fini', ${JSON.stringify(ticket).replaceAll('"', "'")})" ${ticket.etat == 'fini' ? 'checked' : ''}>
           <input name="group${ticket.id}" type="radio" name="options" id="option3" autocomplete="off"> Complété
         </label><br>
         <label class="btn btn-secondary">
@@ -74,19 +74,19 @@ request.onload = () => {
 
 }
 
-const modification = (id, etat) => {
+const modification = (id, etat, ticket) => {
   let formData = new FormData();
 
   formData.append("id", id)
-  formData.append("nom", tickets.nom);
-  formData.append("prenom", tickets.prenom);
-  formData.append("courriel", tickets.courriel);
-  formData.append("telephone", tickets.telephone);
-  formData.append("adresse", tickets.adresse);
+  formData.append("nom", ticket.nom);
+  formData.append("prenom", ticket.prenom);
+  formData.append("courriel", ticket.courriel);
+  formData.append("telephone", ticket.telephone);
+  formData.append("adresse", ticket.adresse);
   formData.append("etat", etat)
-  formData.append("nb_bac", tickets.nb_bac);
-  formData.append("piece", tickets.piece);
-  formData.append("message", tickets.message);
+  formData.append("nb_bac", ticket.nb_bac);
+  formData.append("piece", ticket.piece);
+  formData.append("message", ticket.message);
 
   const request = new XMLHttpRequest();
   request.open("POST", "/modifier");

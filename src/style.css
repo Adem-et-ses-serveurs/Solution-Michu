@@ -109,11 +109,11 @@ form{
     background-color: #004a7f71;
     border:  rgba(0, 115, 255, 0.648) 3px solid;
     border-radius: 1em;
+    backdrop-filter: blur(10px);
 }
 body{
     font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url(bkg.jpeg);
-
+    background: linear-gradient(rgba(97, 91, 91, 0.5), rgba(71, 67, 67, 0.5)), url(bkg.jpeg);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
