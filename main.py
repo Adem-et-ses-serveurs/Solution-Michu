@@ -1,15 +1,7 @@
 from flask import Flask, Response, request, send_file, make_response, send_from_directory
 import json
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 import csv
 import requests
->>>>>>> 2dfb135 (Route optimization when set to travail)
-=======
-import csv
-import requests
->>>>>>> 7c0a62933f9c25f5d1655987252b1e0d4d3353b1
 
 fichier = 'tickets.json'
 
@@ -172,13 +164,6 @@ def modifier():
 
     with open(fichier, 'w') as f:
         f.write(json.dumps(tickets))
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-    return Response(status=200)
-=======
-=======
->>>>>>> 7c0a62933f9c25f5d1655987252b1e0d4d3353b1
     resp = Response(status=200)
 
     @resp.call_on_close
@@ -234,10 +219,6 @@ def modifier():
             print(maps_url.replace(' ', '%20'))
 
     return resp
-<<<<<<< HEAD
->>>>>>> 2dfb135 (Route optimization when set to travail)
-=======
->>>>>>> 7c0a62933f9c25f5d1655987252b1e0d4d3353b1
 
 @app.route('/<path:path>')
 def send_report(path):

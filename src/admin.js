@@ -57,19 +57,11 @@ request.onload = () => {
         <fieldset id="group${ticket.id}" class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'consideration', ${JSON.stringify(ticket).replaceAll('"', "'")})" ${ticket.etat == 'consideration' ? 'checked' : ''}>
           <input name="group${ticket.id}" type="radio" name="options" id="option1" autocomplete="off"> Considération
-<<<<<<< HEAD
-        </label><br>
-        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'travail')" ${ticket.etat == 'travail' ? 'checked' : ''}>
-          <input name="group${ticket.id}" type="radio" name="options" id="option2" autocomplete="off"> Travail
-        </label><br>
-        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'fini')" ${ticket.etat == 'fini' ? 'checked' : ''}>
-=======
         </label>
         <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'travail', ${JSON.stringify(ticket).replaceAll('"', "'")})" ${ticket.etat == 'travail' ? 'checked' : ''}>
           <input name="group${ticket.id}" type="radio" name="options" id="option2" autocomplete="off"> Travail
         </label>
         <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'fini', ${JSON.stringify(ticket).replaceAll('"', "'")})" ${ticket.etat == 'fini' ? 'checked' : ''}>
->>>>>>> 7c0a62933f9c25f5d1655987252b1e0d4d3353b1
           <input name="group${ticket.id}" type="radio" name="options" id="option3" autocomplete="off"> Complété
         </label><br>
         <label class="btn btn-secondary">
