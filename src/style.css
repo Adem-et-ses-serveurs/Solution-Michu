@@ -109,6 +109,7 @@ form{
     background-color: #004a7f71;
     border:  rgba(0, 115, 255, 0.648) 3px solid;
     border-radius: 1em;
+    backdrop-filter: blur(10px);
 }
 body{
     font-family: Arial, Helvetica, sans-serif;
