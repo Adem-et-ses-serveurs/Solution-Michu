@@ -7,6 +7,8 @@ label{
     text-align: center;
     display: none;
     font-style: italic;
+    background-color: black;
+    font-size: 1.5rem;
 }
 
 #_311 {
@@ -139,6 +141,7 @@ body{
     background-color: rgba(75, 70, 70, 0.71);
     border-radius: 1em;
     color: white;
+    backdrop-filter: blur(12px);
 }
 btn,
 .btn {
