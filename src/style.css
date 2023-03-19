@@ -12,9 +12,10 @@ label{
 #_311 {
     text-decoration: underline;
     display: inline;
-
 }
-
+#_311:hover{
+    color: lightgray;
+}
 #top img {
     margin-top: 1em;
     float: left;
@@ -31,7 +32,7 @@ label{
     padding-top: 10px;
     margin-right: 3.1em;
 }
-.admintop{
+#top.admintop{
     margin-bottom: 1em;
 }
 #top{

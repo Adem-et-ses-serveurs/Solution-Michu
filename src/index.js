@@ -167,6 +167,7 @@ function validateForm(event) {
     if (!validAddr()) isValid = false;
     if (!validProb()) isValid = false;
     if (!validBac()) isValid = false;
+    if (!validType()) isValid = false;
     if (!validPiece()) isValid = false;
     if (isValid) {
 
@@ -189,7 +190,7 @@ function validateForm(event) {
         request.onload = () => {
             response = request.responseText;
             ticket=response;
-            tTicket.innerHTML="Votre requete a bien été recu avec le numero de tiquet: "+ticket+1
+            tTicket.innerHTML="Votre requete a bien été recu avec le numero de tiquet: "+ticket
             tTicket.style.display="block"
         }
 
