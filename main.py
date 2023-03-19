@@ -227,5 +227,9 @@ def modifier():
 def send_report(path):
     return send_from_directory('src/', path)
 
+@app.route('/', methods=["GET"])
+def send_index():
+    return send_from_directory('src/', 'index.html')
+
 if __name__ == "__main__":
     app.run()
