@@ -24,7 +24,7 @@ btn.onclick = function () {
   L’utilisateur est informé par courriel.
   Rejeter:
   Enlève la requête de la base de données.
-  L’utilisateur est alerté que sa requête a été rejetée.s
+  L’utilisateur est alerté que sa requête a été rejetée.
   `);
 }
 
@@ -40,7 +40,7 @@ request.onload = () => {
   response = request.responseText;
   jsonRes = JSON.parse(response);
   tickets = jsonRes;
-
+  console.log(response)
   jsonRes.forEach(ticket => {
     newTd = document.createElement('tr');
     newTd.innerHTML = `<th scope="row">${ticket.id}</th>
@@ -55,17 +55,17 @@ request.onload = () => {
         <td>${ticket.message}</td>
         <td align="right">
         <fieldset id="group${ticket.id}" class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'consideration', ${JSON.stringify(ticket).replaceAll('"', "'")})" ${ticket.etat == 'consideration' ? 'checked' : ''}>
-          <input name="group${ticket.id}" type="radio" name="options" id="option1" autocomplete="off"> Considération
+        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'consideration', ${JSON.stringify(ticket).replaceAll('"', "'")})" >
+          <input name="group${ticket.id}" type="radio" name="options" id="option1" autocomplete="off" ${ticket.etat == 'consideration' ? 'checked' : ''}> Considération
         </label>
-        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'travail', ${JSON.stringify(ticket).replaceAll('"', "'")})" ${ticket.etat == 'travail' ? 'checked' : ''}>
-          <input name="group${ticket.id}" type="radio" name="options" id="option2" autocomplete="off"> Travail
+        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'travail', ${JSON.stringify(ticket).replaceAll('"', "'")})" >
+          <input name="group${ticket.id}" type="radio" name="options" id="option2" autocomplete="off" ${ticket.etat == 'travail' ? 'checked' : ''}> Travail
         </label>
-        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'fini', ${JSON.stringify(ticket).replaceAll('"', "'")})" ${ticket.etat == 'fini' ? 'checked' : ''}>
-          <input name="group${ticket.id}" type="radio" name="options" id="option3" autocomplete="off"> Complété
+        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'fini', ${JSON.stringify(ticket).replaceAll('"', "'")})" >
+          <input name="group${ticket.id}" type="radio" name="options" id="option3" autocomplete="off" ${ticket.etat == 'fini' ? 'checked' : ''}> Complété
         </label><br>
         <label class="btn btn-secondary">
-            <input name="group${ticket.id}" type="radio" name="options" id="option3" autocomplete="off" onclick="supprimer(${ticket.id})"> Rejeter
+            <input name="group${ticket.id}" type="radio" name="options" id="option3" autocomplete="off" onclick="supprimer(event,${ticket.id})"> Rejeter
           </label>
       </fieldset>
         </td>`;
@@ -94,11 +94,12 @@ const modification = (id, etat, ticket) => {
   request.open("POST", "/modifier");
   request.setRequestHeader('Authorization', 'test');
   request.send(formData);
+  console.log(request)
 }
 
-const supprimer = (id) => {
+const supprimer = (event,id) => {
   let formData = new FormData();
-  
+  console.log(event.target)
   formData.append("id", id)
 
   const request = new XMLHttpRequest();
@@ -106,4 +107,6 @@ const supprimer = (id) => {
   request.open("DELETE", "/supprimer");
   request.setRequestHeader('Authorization', 'test');
   request.send(formData);
+
+  event.target.parentElement.parentElement.parentElement.parentElement.remove()
 }

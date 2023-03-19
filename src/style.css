@@ -9,6 +9,12 @@ label{
     font-style: italic;
 }
 
+#_311 {
+    text-decoration: underline;
+    display: inline;
+
+}
+
 #top img {
     margin-top: 1em;
     float: left;
@@ -25,13 +31,15 @@ label{
     padding-top: 10px;
     margin-right: 3.1em;
 }
-
+.admintop{
+    margin-bottom: 1em;
+}
 #top{
+    margin-bottom: 0;
     text-align: center;
     /*border-bottom: rgba(0, 115, 255, 0.648) 10px solid;*/
     background-color:  #004a7fd8/*rgba(11, 152, 100, 0.674)*/;
     padding-top: 0;
-    margin-bottom: 2em;
     width: 100%;
     padding-bottom: 8px;
 }
@@ -40,6 +48,9 @@ label{
     text-align: center;
     font-weight: bold;
     font-size: 1.5em;
+    background-color:rgba(10, 103, 69, 0.799);
+    border-radius: 10px;
+    font-family: 'Quicksand', sans-serif;
 }
 
 
