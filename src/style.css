@@ -4,6 +4,7 @@ label{
     margin-bottom: 0.2em;
 }
 #ticket{
+    font-weight: bold;
     text-align: center;
     display: none;
     font-style: italic;
@@ -140,6 +141,7 @@ body{
     background-color: rgba(75, 70, 70, 0.71);
     border-radius: 1em;
     color: white;
+    backdrop-filter: blur(12px);
 }
 btn,
 .btn {
