@@ -7,6 +7,7 @@ const tel = $$("#tel");
 const addr = $$("#addr");
 const prob = $$("#probleme");
 const bac = $$("#bac");
+const piece = $$("#piece");
 const err = $$("#errors");
 
 const tTicket = $$("#ticket");
@@ -15,13 +16,13 @@ let ticket = 0;
 function validNom() {
     let isValid = true;
     if (nom.value === "") {
-        nom.style.border = "thin solid red";
+        nom.style.border = "3px solid red";
         isValid = false;
         $$("#nomErr").textContent = "⚠Nom Invalide"
         $$("#nomErr").style.display="inline-block"
     }
     else {
-        nom.style.border = "thin solid black";
+        nom.style.border = "1px solid black";
         $$("#nomErr").textContent = "";
         $$("#nomErr").style.display="none"
     }
@@ -31,13 +32,13 @@ function validNom() {
 function validPrenom() {
     let isValid = true;
     if (prenom.value == "") {
-        prenom.style.border = "thin solid red";
+        prenom.style.border = "3px solid red";
         isValid = false;
         $$("#prenomErr").textContent = "⚠Prenom Invalide"
         $$("#prenomErr").style.display="inline-block"
     }
     else {
-        prenom.style.border = "thin solid black";
+        prenom.style.border = "1px solid black";
         $$("#prenomErr").textContent = "";
         $$("#prenomErr").style.display="none"
     }
@@ -49,12 +50,12 @@ function validEmail() {
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (!email.value.match(validRegex)) {
         isValid = false;
-        email.style.border = "thin solid red";
+        email.style.border = "3px solid red";
         $$("#emailErr").textContent = "⚠Adresse Courriel Invalide"
         $$("#emailErr").style.display="block"
     }
     else {
-        email.style.border = "thin solid black";
+        email.style.border = "1px solid black";
         $$("#emailErr").textContent = "";
         $$("#emailErr").style.display="none"
     }
@@ -66,12 +67,12 @@ function validTel() {
     var validRegex = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
     if (!tel.value.match(validRegex)) {
         isValid = false;
-        tel.style.border = "thin solid red";
+        tel.style.border = "3px solid red";
         $$("#telErr").textContent = "⚠Telephone Invalide"
         $$("#telErr").style.display="block"
     }
     else {
-        tel.style.border = "thin solid black";
+        tel.style.border = "1px solid black";
         $$("#telErr").textContent = "";
         $$("#telErr").style.display="none"
     }
@@ -82,12 +83,12 @@ function validAddr() {
     let isValid = true;
     if (addr.value === "") {
         isValid = false;
-        addr.style.border = "thin solid red";
+        addr.style.border = "3px solid red";
         $$("#addrErr").textContent = "⚠Adresse Invalide"
         $$("#addrErr").style.display="block"
     }
     else {
-        addr.style.border = "thin solid black";
+        addr.style.border = "1px solid black";
         $$("#addrErr").textContent = "";
     }
     return isValid;
@@ -97,12 +98,12 @@ function validProb() {
     let isValid = true;
     if (prob.value === "") {
         isValid = false;
-        prob.style.border = "thin solid red";
+        prob.style.border = "3px solid red";
         $$("#probErr").textContent = "⚠Vous devez inclure une description du probleme."
         $$("#probErr").style.display="block"
     }
     else {
-        prob.style.border = "thin solid black";
+        prob.style.border = "1px solid black";
         $$("#probErr").textContent = "";
         $$("#probErr").style.display="none"
     }
@@ -113,13 +114,29 @@ function validBac() {
     let isValid = true;
     if (bac.value === "") {
         isValid = false;
-        bac.style.border = "thin solid red";
+        bac.style.border = "3px solid red";
         $$("#bacErr").textContent = "⚠Numero de bac invalide"
         $$("#bacErr").style.display="block"
     }
     else {
-        bac.style.border = "thin solid black";
+        bac.style.border = "1px solid black";
         $$("#bacErr").textContent = "";
+    }
+    return isValid;
+} // validBac()
+
+function validPiece() {
+    let isValid = true;
+    if (piece.value === "unselected") {
+        isValid = false;
+        piece.style.border = "3px solid red";
+        $$("#pieceErr").textContent = "⚠Vous devez sélectionner une piece."
+        $$("#pieceErr").style.display="block"
+    }
+    else {
+        piece.style.border = "1px solid black";
+        $$("#pieceErr").textContent = "";
+        $$("#pieceErr").style.display="none"
     }
     return isValid;
 } // validBac()
@@ -134,6 +151,7 @@ function validateForm(event) {
     if (!validAddr()) isValid = false;
     if (!validProb()) isValid = false;
     if (!validBac()) isValid = false;
+    if (!validPiece()) isValid = false;
     if (isValid) {
 
         let formData = new FormData();
@@ -142,12 +160,13 @@ function validateForm(event) {
         formData.append("prenom", prenom.value);
         formData.append("courriel", email.value);
         formData.append("telephone", tel.value);
-        formData.append("addresse", addr.value);
+        formData.append("adresse", addr.value);
         formData.append("nb_bac", bac.value);
+        formData.append("piece", piece.value);
         formData.append("message", prob.value);
 
         const request = new XMLHttpRequest();
-        request.open("POST", "http://127.0.0.1:5000/ajouter");
+        request.open("POST", "/ajouter");
         request.send(formData);
         
         request.onload = () => {
@@ -156,6 +175,16 @@ function validateForm(event) {
             tTicket.innerHTML="Votre requete a bien été recu avec le numero de tiquet: "+ticket
             tTicket.style.display="block"
         }
+
+        nom.value = "";
+        prenom.value = "";
+        email.value = "";
+        tel.value = "";
+        addr.value = "";
+        bac.value = "";
+        piece.value = "-";
+        prob.value = "";
+
     }
     return isValid;
 } // validateForm()
@@ -167,25 +196,7 @@ tel.onblur = validTel;
 prob.onblur = validProb;
 addr.onblur = validAddr;
 bac.onblur = validBac;
+piece.onblur = validPiece;
 
 const form = $$("#form");
 form.onsubmit = validateForm;
-
-const piece = $$("#piece");
-
-function validPiece() {
-    let isValid = true;
-    if (piece.value == "default"){
-        isValid = false;
-        piece.style.border = "thin solid red";
-        $$("#pieceErr").textContent = "⚠Vous devez sélectionner une pièce."
-        $$("#pieceErr").style.display="block"
-    }
-    else {
-        piece.style.border = "thin solid black";
-        $$("#pieceErr").textContent = "";
-    }
-    return isValid;
-} // validPiece()
-    if (!validPiece()) isValid = false;
-piece.onblur = validPiece;

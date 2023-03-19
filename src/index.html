@@ -7,17 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="favicon.png">
     <title>Contactez-Nous</title>
 </head>
 
 <body>
     <span id="top">
-        <h1>Formulaire de Plainte - Ville de Gatineau</h1>
-        <nav><a href="">Poubelle</a> <a href="">Voisin</a> <a href="">Rue</a></nav>
+        <img src="favicon.png"></img>
+        <h1>Requête de Bac - Ville de Gatineau</h1>
     </span>
-    
+    <p id="formulaire" class="display-4">Formulaire à Remplir</p>
+    <p id="ticket"></p>
     <!-- <form onsubmit="validateform()" id="form" action="submitted.html" class=""> -->
-    <form onsubmit="validateform()" id="form" class="">
+    <form onsubmit="validateform()" id="form" >
         <label class="nameLab" for="prenom">Prenom: </label>
         <label class="nameLab" for="nom">Nom: </label>
         <span>
@@ -34,17 +36,26 @@
         <input type="tel" placeholder="819-123-4567" id="tel" >
         <div class="errors" id="telErr"></div>
 
-        <label for="addr">Adresse Residentiel:</label>
+        <label for="addr">Adresse:</label>
         <input type="tel" placeholder="123 Main St" id="addr" >
         <div class="errors" id="addrErr"></div>
 
-        <label for="probleme">Décrivez le problème:</label>
-        <textarea type="message" placeholder="Les ratons laveurs me volent ma poubelle" id="probleme" ></textarea>
-        <div class="errors" id="probErr"></div>
-
         <label for="bac">Numero de bac:</label>
         <input type="text" placeholder="###" id="bac" ></input>
-        <div class="errors" id="bacErr"></div><br><br>
+        <div class="errors" id="bacErr"></div>
+
+        <label for="piece">Pièce Endommagée:</label>
+        <select name="piece" id="piece">
+            <option value="unselected">-</option>
+            <option value="couvercle">Couvercle</option>
+            <option value="corps">Corps</option>
+            <option value="roues">Roues</option>
+        </select>
+        <div class="errors" id="pieceErr"></div>
+
+        <label for="probleme">Décrivez le problème:</label>
+        <textarea type="message" placeholder="Les ratons laveurs ont volé ma poubelle!!!" id="probleme" ></textarea>
+        <div class="errors" id="probErr"></div>
 
         <input type="submit" value="Envoyer" id="btnSub" class="btn btn-primary">
 

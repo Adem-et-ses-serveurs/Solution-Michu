@@ -8,15 +8,37 @@ label{
     display: none;
     font-style: italic;
 }
+
+#top img {
+    float: left;
+    width: 100px;
+    height: 100px;
+    margin-left: 1em;
+}
+  
+#top h1 {
+    position: relative;
+    top: 18px;
+    left: 10px;
+    padding-bottom: 0px;
+    margin-right: 1em;
+}
+
 #top{
-    height: 7em;
     text-align: center;
     border-bottom: rgba(0, 115, 255, 0.648) 10px solid;
     background-color: rgba(11, 152, 100, 0.674);
-    padding-top: 1em;
+    padding-top: 0;
     margin-bottom: 1em;
     width: 100%;
+    padding-bottom: 8px;
 }
+
+#formulaire {
+    text-align: center;
+    font-size: 1.5em;
+}
+
 
 #admin {
     text-align: center;
@@ -25,7 +47,7 @@ label{
 }
 
 a{
-    color: black;
+    color: white;
     text-decoration: none;
     margin-right: 0.5em;
 }
@@ -51,10 +73,15 @@ span{
     display: inline-block;
     width: 110%;
 }
+label:has(> input:checked) { background-color: #545b62; border-color: #4e555b; }
+#piece{
+    background-color: rgba(255, 255, 255, 0.801);
+}
 input, textarea{
     width: 100%;
     font-family: Arial, Helvetica, sans-serif;
     margin-bottom: 0.2em;
+    background-color: rgba(255, 255, 255, 0.801);
 }
 #btnSub{
     display: block;
@@ -67,24 +94,49 @@ input, textarea{
 
 .errors {
     display: none;
-    color: red;
+    color: rgb(255, 104, 104);
 }
 form{
     width: 70%;
     padding: 2em 2em;
-    margin: 0 auto;
+    margin: auto;
     background-color: rgba(45, 134, 101, 0.211);
     border:  rgba(0, 115, 255, 0.648) 3px solid;
     border-radius: 1em;
 }
 body{
     font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(rgba(97, 91, 91, 0.5), rgba(71, 67, 67, 0.5)), url(bkg.jpeg);
+    backdrop-filter: blur(2px);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    color:white;
 }
 #table {
     width: 90%;
     padding: 2em 2em;
     margin: 0 auto;
     border:  rgba(0, 115, 255, 0.648) 3px solid;
-    background-color: rgba(45, 134, 101, 0.211);
+    background-color: rgba(75, 70, 70, 0.71);
     border-radius: 1em;
+    color: white;
+}
+btn,
+.btn {
+    cursor: pointer;
+}
+@media screen and (max-width: 700px){
+    #top h1{
+        font-size: 2em;
+        padding-bottom: 10px;
+    }
+    #top img{
+        display: none;
+    }
+}
+@media screen and (max-width: 400px){
+    #top h1{
+        font-size: 1.5em
+    }
 }
