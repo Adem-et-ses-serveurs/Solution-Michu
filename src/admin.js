@@ -33,7 +33,7 @@ let tickets = [];
 const request = new XMLHttpRequest();
 
 request.open("POST", "/get-all");
-request.setRequestHeader('Auth', 'test');
+request.setRequestHeader('Authorization', 'test');
 request.send();
 
 request.onload = () => {
@@ -51,6 +51,7 @@ request.onload = () => {
         <td>${ticket.adresse}</td>
         <td>${ticket.nb_bac}</td>
         <td>${ticket.piece}</td>
+        <td>${ticket.type}</td>
         <td>${ticket.message}</td>
         <td align="right">
         <fieldset id="group${ticket.id}" class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -86,10 +87,12 @@ const modification = (id, etat, ticket) => {
   formData.append("etat", etat)
   formData.append("nb_bac", ticket.nb_bac);
   formData.append("piece", ticket.piece);
+  formData.append("type", ticket.type);
   formData.append("message", ticket.message);
 
   const request = new XMLHttpRequest();
   request.open("POST", "/modifier");
+  request.setRequestHeader('Authorization', 'test');
   request.send(formData);
 }
 
@@ -101,6 +104,6 @@ const supprimer = (id) => {
   const request = new XMLHttpRequest();
 
   request.open("DELETE", "/supprimer");
-  request.setRequestHeader('Auth', 'test');
+  request.setRequestHeader('Authorization', 'test');
   request.send(formData);
 }

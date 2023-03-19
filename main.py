@@ -1,5 +1,6 @@
 from flask import Flask, Response, request, send_file, make_response, send_from_directory
 import json
+import csv
 
 fichier = 'tickets.json'
 
@@ -16,9 +17,10 @@ def ajouter():
     adresse = request.form.get("adresse")
     nb_bac = request.form.get("nb_bac")
     piece = request.form.get("piece")
+    type_bac = request.form.get("type")
     message = request.form.get("message")
 
-    if None in [nom, prenom, courriel, telephone, adresse, piece, nb_bac, message]:
+    if None in [nom, prenom, courriel, telephone, adresse, piece, nb_bac, type_bac, message]:
         return Response(status=400)
 
     tickets = None
@@ -39,6 +41,7 @@ def ajouter():
         "adresse": adresse,
         "etat": "consideration",
         "nb_bac": nb_bac,
+        "type": type_bac,
         "piece": piece,
         "message": message
         })
@@ -55,8 +58,7 @@ def ajouter():
 def supprimer():
     autorisation = request.headers.get('Authorization')
     if autorisation == None or autorisation not in autorises:
-        pass
-        # return Response(status=401)
+        return Response(status=401)
 
     try:
        id = int(request.form.get('id'))
@@ -89,7 +91,7 @@ def supprimer():
 
 @app.route("/get-all", methods=["POST"])
 def get_all():
-    autorisation = request.headers.get('Auth')
+    autorisation = request.headers.get('Authorization')
     if autorisation == None or autorisation not in autorises:
         return Response(status=401)
 
@@ -104,10 +106,9 @@ def get_info_test():
 
 @app.route("/modifier", methods=["POST"])
 def modifier():
-    autorisation = request.headers.get('Auth')
+    autorisation = request.headers.get('Authorization')
     if autorisation == None or autorisation not in autorises:
-        pass
-        #return Response(status=401)
+        return Response(status=401)
     
     tickets = None
     with open(fichier, 'r') as f:
@@ -120,12 +121,13 @@ def modifier():
     adresse = request.form.get("adresse")
     etat = request.form.get("etat")
     nb_bac = request.form.get("nb_bac")
+    type_bac = request.form.get("type")
     piece = request.form.get("piece")
     message = request.form.get("message")
 
-    if None in [nom, prenom, courriel, telephone, adresse, etat, nb_bac, piece, message]:
+    if None in [nom, prenom, courriel, telephone, adresse, etat, nb_bac, type_bac, piece, message]:
         return Response(status=400)
-    
+
     try:
        id = int(request.form.get('id'))
     except:
@@ -142,6 +144,9 @@ def modifier():
     if index == None:
         return Response(status=400)
     
+    if etat == tickets[index]['etat']:
+        return Response(status=202)
+
     tickets[index] = {
         "id": id,
         "nom": nom,
@@ -151,12 +156,18 @@ def modifier():
         "adresse": adresse,
         "etat": etat,
         "nb_bac": nb_bac,
+        "type": type_bac,
         "piece": piece,
         "message": message
     }
 
     with open(fichier, 'w') as f:
         f.write(json.dumps(tickets))
+
+    if etat == "travail":
+        with open('Bon de travail.csv', 'a', newline='') as f:
+            writer = csv.writer(f, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([id, adresse.split()[0], ' '.join(adresse.split()[1:]), piece, type_bac])
 
     return Response(status=200)
 
