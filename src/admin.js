@@ -55,7 +55,7 @@ request.onload = () => {
         <td align="right">
         <fieldset id="group${ticket.id}" class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'consideration')" ${ticket.etat == 'consideration' ? 'checked' : ''}>
-          <input name="group${ticket.id}" type="radio" name="options" id="option1" autocomplete="off"> Consideration
+          <input name="group${ticket.id}" type="radio" name="options" id="option1" autocomplete="off"> Considération
         </label>
         <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'travail')" ${ticket.etat == 'travail' ? 'checked' : ''}>
           <input name="group${ticket.id}" type="radio" name="options" id="option2" autocomplete="off"> Travail

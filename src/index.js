@@ -16,7 +16,7 @@ let ticket = 0;
 function validNom() {
     let isValid = true;
     if (nom.value === "") {
-        nom.style.border = "3px solid red";
+        nom.style.border = "3px solid rgb(255, 104, 104)";
         isValid = false;
         $$("#nomErr").textContent = "⚠Nom Invalide"
         $$("#nomErr").style.display="inline-block"
@@ -32,9 +32,9 @@ function validNom() {
 function validPrenom() {
     let isValid = true;
     if (prenom.value == "") {
-        prenom.style.border = "3px solid red";
+        prenom.style.border = "3px solid rgb(255, 104, 104)";
         isValid = false;
-        $$("#prenomErr").textContent = "⚠Prenom Invalide"
+        $$("#prenomErr").textContent = "⚠Prénom Invalide"
         $$("#prenomErr").style.display="inline-block"
     }
     else {
@@ -50,7 +50,7 @@ function validEmail() {
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (!email.value.match(validRegex)) {
         isValid = false;
-        email.style.border = "3px solid red";
+        email.style.border = "3px solid rgb(255, 104, 104)";
         $$("#emailErr").textContent = "⚠Adresse Courriel Invalide"
         $$("#emailErr").style.display="block"
     }
@@ -67,7 +67,7 @@ function validTel() {
     var validRegex = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
     if (!tel.value.match(validRegex)) {
         isValid = false;
-        tel.style.border = "3px solid red";
+        tel.style.border = "3px solid rgb(255, 104, 104)";
         $$("#telErr").textContent = "⚠Telephone Invalide"
         $$("#telErr").style.display="block"
     }
@@ -83,7 +83,7 @@ function validAddr() {
     let isValid = true;
     if (addr.value === "") {
         isValid = false;
-        addr.style.border = "3px solid red";
+        addr.style.border = "3px solid rgb(255, 104, 104)";
         $$("#addrErr").textContent = "⚠Adresse Invalide"
         $$("#addrErr").style.display="block"
     }
@@ -98,7 +98,7 @@ function validProb() {
     let isValid = true;
     if (prob.value === "") {
         isValid = false;
-        prob.style.border = "3px solid red";
+        prob.style.border = "3px solid rgb(255, 104, 104)";
         $$("#probErr").textContent = "⚠Vous devez inclure une description du probleme."
         $$("#probErr").style.display="block"
     }
@@ -114,7 +114,7 @@ function validBac() {
     let isValid = true;
     if (bac.value === "") {
         isValid = false;
-        bac.style.border = "3px solid red";
+        bac.style.border = "3px solid rgb(255, 104, 104)";
         $$("#bacErr").textContent = "⚠Numero de bac invalide"
         $$("#bacErr").style.display="block"
     }
@@ -129,7 +129,7 @@ function validPiece() {
     let isValid = true;
     if (piece.value === "unselected") {
         isValid = false;
-        piece.style.border = "3px solid red";
+        piece.style.border = "3px solid rgb(255, 104, 104)";
         $$("#pieceErr").textContent = "⚠Vous devez sélectionner une piece."
         $$("#pieceErr").style.display="block"
     }
