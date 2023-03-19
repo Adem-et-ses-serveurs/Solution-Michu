@@ -8,6 +8,7 @@ const addr = $$("#addr");
 const prob = $$("#probleme");
 const bac = $$("#bac");
 const piece = $$("#piece");
+const type = $$("#type");
 const err = $$("#errors");
 
 const tTicket = $$("#ticket");
@@ -112,7 +113,7 @@ function validProb() {
 
 function validBac() {
     let isValid = true;
-    if (bac.value === "") {
+    if (bac.value === "" || isNaN(bac.value)) {
         isValid = false;
         bac.style.border = "3px solid rgb(255, 104, 104)";
         $$("#bacErr").textContent = "⚠Numero de bac invalide"
@@ -141,6 +142,21 @@ function validPiece() {
     return isValid;
 } // validBac()
 
+function validType() {
+    let isValid = true;
+    if (type.value === "unselected") {
+        isValid = false;
+        type.style.border = "3px solid rgb(255, 104, 104)";
+        $$("#typeErr").textContent = "⚠Vous devez sélectionner une piece."
+        $$("#typeErr").style.display="block"
+    } else {
+        type.style.border = "1px solid black";
+        $$("#typeErr").textContent = "";
+        $$("#typeErr").style.display="none"
+    }
+    return isValid;
+}
+
 function validateForm(event) {
     event.preventDefault();
     let isValid = true;
@@ -163,6 +179,7 @@ function validateForm(event) {
         formData.append("adresse", addr.value);
         formData.append("nb_bac", bac.value);
         formData.append("piece", piece.value);
+        formData.append("type", type.value);
         formData.append("message", prob.value);
 
         const request = new XMLHttpRequest();
@@ -183,20 +200,22 @@ function validateForm(event) {
         addr.value = "";
         bac.value = "";
         piece.value = "-";
+        type.value = "-";
         prob.value = "";
 
     }
     return isValid;
 } // validateForm()
 
-nom.onblur = validNom;
-prenom.onblur = validPrenom;
-email.onblur = validEmail;
-tel.onblur = validTel;
-prob.onblur = validProb;
-addr.onblur = validAddr;
-bac.onblur = validBac;
-piece.onblur = validPiece;
+nom.onchange = validNom;
+prenom.onchange = validPrenom;
+email.onchange = validEmail;
+tel.onchange = validTel;
+prob.onchange = validProb;
+addr.onchange = validAddr;
+bac.onchange = validBac;
+piece.onchange = validPiece;
+type.onchange = validType;
 
 const form = $$("#form");
 form.onsubmit = validateForm;

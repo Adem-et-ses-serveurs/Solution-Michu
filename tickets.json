@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 []
 =======
 [{"id": 1, "nom": "Smith", "prenom": "John", "courriel": "test@example.com", "telephone": "928-238-1223", "adresse": "333 blvd cit\u00e9 des jeunes, Gatineau", "etat": "travail", "nb_bac": "458788766", "type": "brun240", "piece": "corps", "message": "Les \u00e9l\u00e8ves de H\u00e9ritage ;)"}, {"id": 2, "nom": "Smith", "prenom": "Bob", "courriel": "test@example.com", "telephone": "928-238-1223", "adresse": "212 rue Vanier, Gatineau", "etat": "travail", "nb_bac": "45812", "type": "bleu360", "piece": "couvercle", "message": "les \u00e9cureuils ont mang\u00e9 le couvercle"}, {"id": 3, "nom": "Lessard", "prenom": "Simon", "courriel": "simon@lessard.com", "telephone": "928-238-1223", "adresse": "350 blvd cit\u00e9 des jeunes, Gatineau", "etat": "travail", "nb_bac": "123", "type": "brun45", "piece": "roues", "message": "les enfants du parc"}]
 >>>>>>> 2dfb135 (Route optimization when set to travail)
+=======
+[{"id": 1, "nom": "Smith", "prenom": "John", "courriel": "test@example.com", "telephone": "928-238-1223", "adresse": "333 blvd cit\u00e9 des jeunes, Gatineau", "etat": "travail", "nb_bac": "458788766", "type": "brun240", "piece": "corps", "message": "Les \u00e9l\u00e8ves de H\u00e9ritage ;)"}, {"id": 2, "nom": "Smith", "prenom": "Bob", "courriel": "test@example.com", "telephone": "928-238-1223", "adresse": "212 rue Vanier, Gatineau", "etat": "travail", "nb_bac": "45812", "type": "bleu360", "piece": "couvercle", "message": "les \u00e9cureuils ont mang\u00e9 le couvercle"}, {"id": 3, "nom": "Lessard", "prenom": "Simon", "courriel": "simon@lessard.com", "telephone": "928-238-1223", "adresse": "350 blvd cit\u00e9 des jeunes, Gatineau", "etat": "travail", "nb_bac": "123", "type": "brun45", "piece": "roues", "message": "les enfants du parc"}]
+>>>>>>> 7c0a62933f9c25f5d1655987252b1e0d4d3353b1
