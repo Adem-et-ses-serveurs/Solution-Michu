@@ -170,9 +170,17 @@ def modifier():
     @resp.call_on_close
     def on_close():
         if etat == "travail":
-            with open('Bon de travail.csv', 'a', newline='') as f:
-                writer = csv.writer(f, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                writer.writerow([id, adresse.split()[0], ' '.join(adresse.split()[1:]), piece, type_bac])
+            with open('bon_de_travail.json', 'w+') as f:
+                bon_travail = json.load(f)
+
+                bon_travail[str(id)] = {
+                        "civique": adresse.split()[0],
+                        "rue": ' '.join(adresse.split()[1:]),
+                        "piece": piece,
+                        "type": type
+                        }
+
+                f.write(json.dumps(bon_travail))
 
             visits = {}
             for ticket in tickets:
@@ -218,6 +226,15 @@ def modifier():
             for location in res.json()['solution']['vehicle_1']:
                 maps_url += location['location_name'] + '/'
             print(maps_url.replace(' ', '%20'))
+
+        else:
+            with open('bon_de_travail.json', 'w+') as f:
+                bon_travail = json.load(f)
+
+                if bon_travail.get(str(id)) != None:
+                    del bon_travail[str(id)]
+
+                    f.write(json.dumps(bon_travail))
 
     return resp
 
