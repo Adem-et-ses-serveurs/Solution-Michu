@@ -2,6 +2,8 @@ from flask import Flask, Response, request, send_file, make_response, send_from_
 import json
 import csv
 import requests
+import xlsxwriter
+
 
 fichier = 'tickets.json'
 
@@ -169,18 +171,39 @@ def modifier():
 
     @resp.call_on_close
     def on_close():
+        workbook = xlsxwriter.Workbook('Bon_de_travail.xlsx')
+        worksheet = workbook.add_worksheet()
+
+        entetes = ['Numéro de requête', 'Numéro civique', 'Pièce', 'BAC BLEU - 360', 'BAC BRUN - 45', 'BAC BRUN - 120', 'BAC BRUN - 240', 'BAC GRIS 120', 'BAC GRIS 240', 'BAC GRIS 360']
+
+        for col, entete in enumerate(entetes):
+            worksheet.write(0, col, entete)
+
+        row = 1
+
+        for ticket in tickets:
+            if ticket['etat'] == 'travail':
+                worksheet.write(row, 0, ticket['id'])
+                worksheet.write(row, 1, ticket['adresse'].split()[0])
+                worksheet.write(row, 2, ' '.join(ticket['adresse'].split()[1:]))
+                worksheet.write(row, 3, ticket['piece'])
+
+                row += 1
+
+        workbook.close()
+
         if etat == "travail":
-            with open('bon_de_travail.json', 'w+') as f:
-                bon_travail = json.load(f)
+            # with open('bon_de_travail.json', 'w+') as f:
+                # bon_travail = json.load(f)
 
-                bon_travail[str(id)] = {
-                        "civique": adresse.split()[0],
-                        "rue": ' '.join(adresse.split()[1:]),
-                        "piece": piece,
-                        "type": type
-                        }
+                # bon_travail[str(id)] = {
+                #         "civique": adresse.split()[0],
+                #         "rue": ' '.join(adresse.split()[1:]),
+                #         "piece": piece,
+                #         "type": type
+                #         }
 
-                f.write(json.dumps(bon_travail))
+                # f.write(json.dumps(bon_travail))
 
             visits = {}
             for ticket in tickets:
