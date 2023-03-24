@@ -1,6 +1,5 @@
 from flask import Flask, Response, request, send_file, make_response, send_from_directory
 import json
-import csv
 import requests
 import xlsxwriter
 
@@ -174,10 +173,24 @@ def modifier():
         workbook = xlsxwriter.Workbook('Bon_de_travail.xlsx')
         worksheet = workbook.add_worksheet()
 
-        entetes = ['Numéro de requête', 'Numéro civique', 'Pièce', 'BAC BLEU - 360', 'BAC BRUN - 45', 'BAC BRUN - 120', 'BAC BRUN - 240', 'BAC GRIS 120', 'BAC GRIS 240', 'BAC GRIS 360']
+        halign = workbook.add_format()
+        halign.set_align('center')
+
+        entetes = ['Numéro de requête', 'Numéro civique', 'Rue', 'Pièce', 'BAC BLEU - 360', 'BAC BRUN - 45', 'BAC BRUN - 80', 'BAC BRUN - 120', 'BAC BRUN - 240', 'BAC BRUN - 240', 'BAC GRIS 120', 'BAC GRIS 240', 'BAC GRIS 360']
 
         for col, entete in enumerate(entetes):
-            worksheet.write(0, col, entete)
+            worksheet.write(0, col, entete, halign)
+
+        types = {
+            'bleu360': 4,
+            'brun45':  5,
+            'brun80':  6,
+            'brun120': 7,
+            'brun240': 8,
+            'gris120': 9,
+            'gris240': 10,
+            'gris360': 11,
+        }
 
         row = 1
 
@@ -188,23 +201,17 @@ def modifier():
                 worksheet.write(row, 2, ' '.join(ticket['adresse'].split()[1:]))
                 worksheet.write(row, 3, ticket['piece'])
 
+                worksheet.write(row, types[ticket['type']], '1')
+
                 row += 1
+
+        worksheet.set_column(0, 1, 20, halign)
+        worksheet.set_column(2, 2, 25)
+        worksheet.set_column(3, 11, 15, halign)
 
         workbook.close()
 
         if etat == "travail":
-            # with open('bon_de_travail.json', 'w+') as f:
-                # bon_travail = json.load(f)
-
-                # bon_travail[str(id)] = {
-                #         "civique": adresse.split()[0],
-                #         "rue": ' '.join(adresse.split()[1:]),
-                #         "piece": piece,
-                #         "type": type
-                #         }
-
-                # f.write(json.dumps(bon_travail))
-
             visits = {}
             for ticket in tickets:
                 if ticket['etat'] != 'travail':
@@ -249,15 +256,6 @@ def modifier():
             for location in res.json()['solution']['vehicle_1']:
                 maps_url += location['location_name'] + '/'
             print(maps_url.replace(' ', '%20'))
-
-        else:
-            with open('bon_de_travail.json', 'w+') as f:
-                bon_travail = json.load(f)
-
-                if bon_travail.get(str(id)) != None:
-                    del bon_travail[str(id)]
-
-                    f.write(json.dumps(bon_travail))
 
     return resp
 
