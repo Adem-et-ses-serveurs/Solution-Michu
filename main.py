@@ -198,8 +198,8 @@ def modifier():
             if ticket['etat'] == 'travail':
                 worksheet.write(row, 0, ticket['id'])
                 worksheet.write(row, 1, ticket['adresse'].split()[0])
-                worksheet.write(row, 2, ' '.join(ticket['adresse'].split()[1:]))
-                worksheet.write(row, 3, ticket['piece'])
+                worksheet.write(row, 2, ' '.join(ticket['adresse'].split()[1:]).upper())
+                worksheet.write(row, 3, ticket['piece'].upper())
 
                 worksheet.write(row, types[ticket['type']], '1')
 
