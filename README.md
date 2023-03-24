@@ -10,7 +10,8 @@ This prototype shows the possibility of an efficient system in the interaction b
 
 ## How to use this
 
-<span style="color:red;font-weight:bold">Warning: </span>**This is a prototype and should not be used in any type of production environment!**
+> __Warning__
+> **This is a prototype and should not be used in any type of production environment!**
 
 *If you want to try this out you may also want to modify the way this prototype functions since it is very specific to the problem we had to solve*
 
