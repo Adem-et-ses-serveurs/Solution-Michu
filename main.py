@@ -2,6 +2,7 @@ from flask import Flask, Response, request, send_file, make_response, send_from_
 import json
 import requests
 import xlsxwriter
+from flask_sqlalchemy import SQLAlchemy
 
 
 fichier = 'tickets.json'
@@ -9,6 +10,7 @@ fichier = 'tickets.json'
 autorises=["test"]
 
 app = Flask(__name__, template_folder='../Frontend')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tickets.sqlite3'
 
 @app.route("/ajouter", methods=["POST"])
 def ajouter():
@@ -259,13 +261,46 @@ def modifier():
 
     return resp
 
+
 @app.route('/<path:path>')
 def send_report(path):
     return send_from_directory('src/', path)
+
 
 @app.route('/', methods=["GET"])
 def send_index():
     return send_from_directory('src/', 'index.html')
 
+
+db = SQLAlchemy(app);
+class ticketer(db.Model):
+    id        = db.Column('id', db.Integer, primary_key=True)
+    nom       = db.Column(db.String(100))
+    prenom    = db.Column(db.String(100))
+    courriel  = db.Column(db.String(100))
+    telephone = db.Column(db.String(100))
+    adresse   = db.Column(db.String(100))
+    etat      = db.Column(db.String(100))
+    nb_bac    = db.Column(db.String(100))
+    type_bac  = db.Column(db.String(100))
+    piece     = db.Column(db.String(100))
+    message   = db.Column(db.String(100))
+
+
+    def __init__(self, nom, prenom, courriel, telephone, adresse, etat, nb_bac, type_bac, piece, message):
+        self.nom       = nom
+        self.prenom    = prenom
+        self.courriel  = courriel
+        self.telephone = telephone
+        self.adresse   = adresse
+        self.etat      = etat
+        self.nb_bac    = nb_bac
+        self.type_bac  = type_bac
+        self.piece     = piece
+        self.message   = message
+
+
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     app.run()
