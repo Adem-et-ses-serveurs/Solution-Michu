@@ -27,33 +27,11 @@ def ajouter():
     if None in [nom, prenom, courriel, telephone, adresse, piece, nb_bac, type_bac, message]:
         return Response(status=400)
 
-    tickets = None
-    with open(fichier, 'r') as f:
-        tickets  = json.load(f)
- 
-    if len(tickets) != 0:
-        id = int(tickets[-1]['id']) + 1
-    else:
-        id = len(tickets)
+    ticket = ticketer(nom, prenom, courriel, telephone, adresse, "consideration", nb_bac, type_bac, piece, message)
+    db.session.add(ticket)
+    db.session.commit()
 
-    tickets.append({
-        "id": id,
-        "nom": nom,
-        "prenom": prenom,
-        "courriel": courriel,
-        "telephone": telephone,
-        "adresse": adresse,
-        "etat": "consideration",
-        "nb_bac": nb_bac,
-        "type": type_bac,
-        "piece": piece,
-        "message": message
-        })
-
-    with open(fichier, 'w') as f:
-        f.write(json.dumps(tickets))
-
-    resp = Response(str(id))
+    resp = Response(str(ticket.id))
     resp.headers['Access-Control-Allow-Origin'] = '*'
 
     return resp
