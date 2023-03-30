@@ -115,36 +115,40 @@ def modifier():
     except:
         return Response(status=400)
 
-    if id != 0:
-        index = None
-        for i, ticket in enumerate(tickets):
-            if ticket['id'] == id:
-                index = i
-    else:
-        index = 0
+    #if id != 0:
+    #    index = None
+    #    for i, ticket in enumerate(tickets):
+    #        if ticket['id'] == id:
+    #            index = i
+    #else:
+    #    index = 0
 
-    if index == None:
-        return Response(status=400)
+    #if index == None:
+    #    return Response(status=400)
     
-    if etat == tickets[index]['etat']:
-        return Response(status=202)
+    #if etat == tickets[index]['etat']:
+    #    return Response(status=202)
 
-    tickets[index] = {
-        "id": id,
-        "nom": nom,
-        "prenom": prenom,
-        "courriel": courriel,
-        "telephone": telephone,
-        "adresse": adresse,
-        "etat": etat,
-        "nb_bac": nb_bac,
-        "type": type_bac,
-        "piece": piece,
-        "message": message
-    }
+    #tickets[index] = {
+    #    "id": id,
+    #    "nom": nom,
+    #    "prenom": prenom,
+    #    "courriel": courriel,
+    #    "telephone": telephone,
+    #    "adresse": adresse,
+    #    "etat": etat,
+    #    "nb_bac": nb_bac,
+    #    "type": type_bac,
+    #    "piece": piece,
+    #    "message": message
+    #}
 
-    with open(fichier, 'w') as f:
-        f.write(json.dumps(tickets))
+    #with open(fichier, 'w') as f:
+    #    f.write(json.dumps(tickets))
+
+    ticket = db.session.query(ticketer).get(id)
+    ticket.etat = etat
+    db.session.commit()
 
     resp = Response(status=200)
 
