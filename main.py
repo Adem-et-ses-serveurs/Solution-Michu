@@ -47,27 +47,31 @@ def supprimer():
     except:
         return Response(status=400)
     
-    with open(fichier, 'r') as f:
-        tickets = json.load(f)
+    # with open(fichier, 'r') as f:
+    #     tickets = json.load(f)
 
-    if id != 0:
-        index = None
-        for i, ticket in enumerate(tickets):
-            if ticket['id'] == id:
-                index = i
-    else:
-        index = 0
+    # if id != 0:
+    #     index = None
+    #     for i, ticket in enumerate(tickets):
+    #         if ticket['id'] == id:
+    #             index = i
+    # else:
+    #     index = 0
 
-    if index == None:
-        return Response(status=400)
+    # if index == None:
+    #     return Response(status=400)
 
-    del tickets[index]
+    # del tickets[index]
     
-    with open(fichier, 'w') as f:
-        if len(tickets) == 0:
-            f.write('[]')
-        else:
-            f.write(json.dumps(tickets))
+    # with open(fichier, 'w') as f:
+    #     if len(tickets) == 0:
+    #         f.write('[]')
+    #     else:
+    #         f.write(json.dumps(tickets))
+
+    ticket = db.session.query(ticketer).get(id)
+    db.session.delete(ticket)
+    db.session.commit()
 
     return Response(status=200)
 
@@ -114,37 +118,6 @@ def modifier():
        id = int(request.form.get('id'))
     except:
         return Response(status=400)
-
-    #if id != 0:
-    #    index = None
-    #    for i, ticket in enumerate(tickets):
-    #        if ticket['id'] == id:
-    #            index = i
-    #else:
-    #    index = 0
-
-    #if index == None:
-    #    return Response(status=400)
-    
-    #if etat == tickets[index]['etat']:
-    #    return Response(status=202)
-
-    #tickets[index] = {
-    #    "id": id,
-    #    "nom": nom,
-    #    "prenom": prenom,
-    #    "courriel": courriel,
-    #    "telephone": telephone,
-    #    "adresse": adresse,
-    #    "etat": etat,
-    #    "nb_bac": nb_bac,
-    #    "type": type_bac,
-    #    "piece": piece,
-    #    "message": message
-    #}
-
-    #with open(fichier, 'w') as f:
-    #    f.write(json.dumps(tickets))
 
     ticket = db.session.query(ticketer).get(id)
     ticket.etat = etat
