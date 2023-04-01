@@ -3,6 +3,7 @@ import json
 import requests
 import xlsxwriter
 from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy.inspection import inspect
 
 
 fichier = 'tickets.json'
@@ -27,7 +28,7 @@ def ajouter():
     if None in [nom, prenom, courriel, telephone, adresse, piece, nb_bac, type_bac, message]:
         return Response(status=400)
 
-    ticket = ticketer(nom, prenom, courriel, telephone, adresse, "consideration", nb_bac, type_bac, piece, message)
+    ticket = Ticketer(nom, prenom, courriel, telephone, adresse, "consideration", nb_bac, type_bac, piece, message)
     db.session.add(ticket)
     db.session.commit()
 
@@ -69,7 +70,7 @@ def supprimer():
     #     else:
     #         f.write(json.dumps(tickets))
 
-    ticket = db.session.query(ticketer).get(id)
+    ticket = db.session.query(Ticketer).get(id)
     db.session.delete(ticket)
     db.session.commit()
 
@@ -81,7 +82,9 @@ def get_all():
     if autorisation == None or autorisation not in autorises:
         return Response(status=401)
 
-    resp = make_response(send_file(fichier, mimetype="application/json"))
+    #resp = make_response(send_file(fichier, mimetype="application/json"))
+    tickets = Ticketer.query.all()
+    resp = flask.jsonify(Ticketer.serialize_list(tickets))
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
@@ -119,7 +122,7 @@ def modifier():
     except:
         return Response(status=400)
 
-    ticket = db.session.query(ticketer).get(id)
+    ticket = db.session.query(Ticketer).get(id)
     ticket.etat = etat
     db.session.commit()
 
@@ -228,7 +231,7 @@ def send_index():
 
 
 db = SQLAlchemy(app);
-class ticketer(db.Model):
+class Ticketer(db.Model, Serializer):
     id        = db.Column('id', db.Integer, primary_key=True)
     nom       = db.Column(db.String(100))
     prenom    = db.Column(db.String(100))
@@ -253,6 +256,15 @@ class ticketer(db.Model):
         self.type_bac  = type_bac
         self.piece     = piece
         self.message   = message
+
+
+class Serializer(object):
+    def serialize(self):
+        return {c: getattr(self, c) for c in inspect(self).attrs.keys()}
+
+    @staticmethod
+    def serialize_list(l):
+        return [m.serialize() for m in l]
 
 
 if __name__ == "__main__":
