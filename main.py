@@ -88,11 +88,6 @@ def get_all():
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
-@app.route("/get", methods=["GET"])
-def get_info_test():
-    with open(fichier, 'r') as f:
-        return f.read()
-
 @app.route("/modifier", methods=["POST"])
 def modifier():
     autorisation = request.headers.get('Authorization')
@@ -130,6 +125,9 @@ def modifier():
 
     @resp.call_on_close
     def on_close():
+        tickets = Ticketer.query.all()
+        
+
         workbook = xlsxwriter.Workbook('Bon_de_travail.xlsx')
         worksheet = workbook.add_worksheet()
 
