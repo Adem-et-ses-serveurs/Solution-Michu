@@ -118,6 +118,7 @@ def modifier():
         return Response(status=400)
 
     ticket = db.session.query(Ticketer).get(id)
+    prev_etat = ticket.etat.copy()
     ticket.etat = etat
     db.session.commit()
 
@@ -126,7 +127,6 @@ def modifier():
     @resp.call_on_close
     def on_close():
         tickets = Ticketer.query.all()
-        
 
         workbook = xlsxwriter.Workbook('Bon_de_travail.xlsx')
         worksheet = workbook.add_worksheet()
@@ -169,7 +169,7 @@ def modifier():
 
         workbook.close()
 
-        if etat == "travail":
+        if etat == "travail" or prev_etat == "travail":
             visits = {}
             for ticket in tickets:
                 if ticket['etat'] != 'travail':
