@@ -54,7 +54,6 @@ label{
     margin-top: 0;
     font-size: 1.5em;
     background-color:rgba(10, 103, 69, 0.799);
-    border-radius: 10px;
     font-family: 'Quicksand', sans-serif;
 }
 
@@ -88,7 +87,7 @@ a:hover{
 .names:nth-last-of-type(){
     margin-left: 1em;
 }
-span{
+header{
     display: inline-block;
     width: 110%;
 }
