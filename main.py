@@ -1,9 +1,10 @@
 from flask import Flask, Response, request, send_file, make_response, send_from_directory
 import json
+import flask
 import requests
 import xlsxwriter
 from flask_sqlalchemy import SQLAlchemy
-from flask_sqlalchemy.inspection import inspect
+from sqlalchemy.inspection import inspect
 
 
 fichier = 'tickets.json'
@@ -227,6 +228,13 @@ def send_report(path):
 def send_index():
     return send_from_directory('src/', 'index.html')
 
+class Serializer(object):
+    def serialize(self):
+        return {c: getattr(self, c) for c in inspect(self).attrs.keys()}
+
+    @staticmethod
+    def serialize_list(l):
+        return [m.serialize() for m in l]
 
 db = SQLAlchemy(app);
 class Ticketer(db.Model, Serializer):
@@ -256,13 +264,6 @@ class Ticketer(db.Model, Serializer):
         self.message   = message
 
 
-class Serializer(object):
-    def serialize(self):
-        return {c: getattr(self, c) for c in inspect(self).attrs.keys()}
-
-    @staticmethod
-    def serialize_list(l):
-        return [m.serialize() for m in l]
 
 
 if __name__ == "__main__":
