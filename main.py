@@ -1,13 +1,17 @@
 from flask import Flask, Response, request, send_file, make_response, send_from_directory
 import json
-import csv
 import requests
+import xlsxwriter
+from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy.inspection import inspect
+
 
 fichier = 'tickets.json'
 
 autorises=["test"]
 
 app = Flask(__name__, template_folder='../Frontend')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tickets.sqlite3'
 
 @app.route("/ajouter", methods=["POST"])
 def ajouter():
@@ -24,33 +28,11 @@ def ajouter():
     if None in [nom, prenom, courriel, telephone, adresse, piece, nb_bac, type_bac, message]:
         return Response(status=400)
 
-    tickets = None
-    with open(fichier, 'r') as f:
-        tickets  = json.load(f)
- 
-    if len(tickets) != 0:
-        id = int(tickets[-1]['id']) + 1
-    else:
-        id = len(tickets)
+    ticket = Ticketer(nom, prenom, courriel, telephone, adresse, "consideration", nb_bac, type_bac, piece, message)
+    db.session.add(ticket)
+    db.session.commit()
 
-    tickets.append({
-        "id": id,
-        "nom": nom,
-        "prenom": prenom,
-        "courriel": courriel,
-        "telephone": telephone,
-        "adresse": adresse,
-        "etat": "consideration",
-        "nb_bac": nb_bac,
-        "type": type_bac,
-        "piece": piece,
-        "message": message
-        })
-
-    with open(fichier, 'w') as f:
-        f.write(json.dumps(tickets))
-
-    resp = Response(str(id))
+    resp = Response(str(ticket.id))
     resp.headers['Access-Control-Allow-Origin'] = '*'
 
     return resp
@@ -66,27 +48,31 @@ def supprimer():
     except:
         return Response(status=400)
     
-    with open(fichier, 'r') as f:
-        tickets = json.load(f)
+    # with open(fichier, 'r') as f:
+    #     tickets = json.load(f)
 
-    if id != 0:
-        index = None
-        for i, ticket in enumerate(tickets):
-            if ticket['id'] == id:
-                index = i
-    else:
-        index = 0
+    # if id != 0:
+    #     index = None
+    #     for i, ticket in enumerate(tickets):
+    #         if ticket['id'] == id:
+    #             index = i
+    # else:
+    #     index = 0
 
-    if index == None:
-        return Response(status=400)
+    # if index == None:
+    #     return Response(status=400)
 
-    del tickets[index]
+    # del tickets[index]
     
-    with open(fichier, 'w') as f:
-        if len(tickets) == 0:
-            f.write('[]')
-        else:
-            f.write(json.dumps(tickets))
+    # with open(fichier, 'w') as f:
+    #     if len(tickets) == 0:
+    #         f.write('[]')
+    #     else:
+    #         f.write(json.dumps(tickets))
+
+    ticket = db.session.query(Ticketer).get(id)
+    db.session.delete(ticket)
+    db.session.commit()
 
     return Response(status=200)
 
@@ -96,14 +82,11 @@ def get_all():
     if autorisation == None or autorisation not in autorises:
         return Response(status=401)
 
-    resp = make_response(send_file(fichier, mimetype="application/json"))
+    #resp = make_response(send_file(fichier, mimetype="application/json"))
+    tickets = Ticketer.query.all()
+    resp = flask.jsonify(Ticketer.serialize_list(tickets))
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
-
-@app.route("/get", methods=["GET"])
-def get_info_test():
-    with open(fichier, 'r') as f:
-        return f.read()
 
 @app.route("/modifier", methods=["POST"])
 def modifier():
@@ -134,45 +117,59 @@ def modifier():
     except:
         return Response(status=400)
 
-    if id != 0:
-        index = None
-        for i, ticket in enumerate(tickets):
-            if ticket['id'] == id:
-                index = i
-    else:
-        index = 0
+    ticket = db.session.query(Ticketer).get(id)
+    prev_etat = ticket.etat.copy()
+    ticket.etat = etat
+    db.session.commit()
 
-    if index == None:
-        return Response(status=400)
-    
-    if etat == tickets[index]['etat']:
-        return Response(status=202)
-
-    tickets[index] = {
-        "id": id,
-        "nom": nom,
-        "prenom": prenom,
-        "courriel": courriel,
-        "telephone": telephone,
-        "adresse": adresse,
-        "etat": etat,
-        "nb_bac": nb_bac,
-        "type": type_bac,
-        "piece": piece,
-        "message": message
-    }
-
-    with open(fichier, 'w') as f:
-        f.write(json.dumps(tickets))
     resp = Response(status=200)
 
     @resp.call_on_close
     def on_close():
-        if etat == "travail":
-            with open('Bon de travail.csv', 'a', newline='') as f:
-                writer = csv.writer(f, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                writer.writerow([id, adresse.split()[0], ' '.join(adresse.split()[1:]), piece, type_bac])
+        tickets = Ticketer.query.all()
 
+        workbook = xlsxwriter.Workbook('Bon_de_travail.xlsx')
+        worksheet = workbook.add_worksheet()
+
+        halign = workbook.add_format()
+        halign.set_align('center')
+
+        entetes = ['Numéro de requête', 'Numéro civique', 'Rue', 'Pièce', 'BAC BLEU - 360', 'BAC BRUN - 45', 'BAC BRUN - 80', 'BAC BRUN - 120', 'BAC BRUN - 240', 'BAC BRUN - 240', 'BAC GRIS 120', 'BAC GRIS 240', 'BAC GRIS 360']
+
+        for col, entete in enumerate(entetes):
+            worksheet.write(0, col, entete, halign)
+
+        types = {
+            'bleu360': 4,
+            'brun45':  5,
+            'brun80':  6,
+            'brun120': 7,
+            'brun240': 8,
+            'gris120': 9,
+            'gris240': 10,
+            'gris360': 11,
+        }
+
+        row = 1
+
+        for ticket in tickets:
+            if ticket['etat'] == 'travail':
+                worksheet.write(row, 0, ticket['id'])
+                worksheet.write(row, 1, ticket['adresse'].split()[0])
+                worksheet.write(row, 2, ' '.join(ticket['adresse'].split()[1:]).upper())
+                worksheet.write(row, 3, ticket['piece'].upper())
+
+                worksheet.write(row, types[ticket['type']], '1')
+
+                row += 1
+
+        worksheet.set_column(0, 1, 20, halign)
+        worksheet.set_column(2, 2, 25)
+        worksheet.set_column(3, 11, 15, halign)
+
+        workbook.close()
+
+        if etat == "travail" or prev_etat == "travail":
             visits = {}
             for ticket in tickets:
                 if ticket['etat'] != 'travail':
@@ -220,13 +217,55 @@ def modifier():
 
     return resp
 
+
 @app.route('/<path:path>')
 def send_report(path):
     return send_from_directory('src/', path)
+
 
 @app.route('/', methods=["GET"])
 def send_index():
     return send_from_directory('src/', 'index.html')
 
+
+db = SQLAlchemy(app);
+class Ticketer(db.Model, Serializer):
+    id        = db.Column('id', db.Integer, primary_key=True)
+    nom       = db.Column(db.String(100))
+    prenom    = db.Column(db.String(100))
+    courriel  = db.Column(db.String(100))
+    telephone = db.Column(db.String(100))
+    adresse   = db.Column(db.String(100))
+    etat      = db.Column(db.String(100))
+    nb_bac    = db.Column(db.String(100))
+    type_bac  = db.Column(db.String(100))
+    piece     = db.Column(db.String(100))
+    message   = db.Column(db.String(100))
+
+
+    def __init__(self, nom, prenom, courriel, telephone, adresse, etat, nb_bac, type_bac, piece, message):
+        self.nom       = nom
+        self.prenom    = prenom
+        self.courriel  = courriel
+        self.telephone = telephone
+        self.adresse   = adresse
+        self.etat      = etat
+        self.nb_bac    = nb_bac
+        self.type_bac  = type_bac
+        self.piece     = piece
+        self.message   = message
+
+
+class Serializer(object):
+    def serialize(self):
+        return {c: getattr(self, c) for c in inspect(self).attrs.keys()}
+
+    @staticmethod
+    def serialize_list(l):
+        return [m.serialize() for m in l]
+
+
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     app.run()

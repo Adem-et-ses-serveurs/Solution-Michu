@@ -40,7 +40,6 @@ request.onload = () => {
   response = request.responseText;
   jsonRes = JSON.parse(response);
   tickets = jsonRes;
-  console.log(response)
   jsonRes.forEach(ticket => {
     newTd = document.createElement('tr');
     newTd.innerHTML = `<th scope="row">${ticket.id}</th>
@@ -55,13 +54,13 @@ request.onload = () => {
         <td>${ticket.message}</td>
         <td align="right">
         <fieldset id="group${ticket.id}" class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'consideration', ${JSON.stringify(ticket).replaceAll('"', "'")})" >
+        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'consideration', ${JSON.stringify(ticket).replaceAll('"', "'")});selectBtn(event)" ${ticket.etat == 'consideration' ? 'style="background-color:#545b62;border-color:#4e555b;"' : ''}>
           <input name="group${ticket.id}" type="radio" name="options" id="option1" autocomplete="off" ${ticket.etat == 'consideration' ? 'checked' : ''}> Considération
         </label>
-        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'travail', ${JSON.stringify(ticket).replaceAll('"', "'")})" >
+        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'travail', ${JSON.stringify(ticket).replaceAll('"', "'")});selectBtn(event)" ${ticket.etat == 'travail' ? 'style="background-color:#545b62;border-color:#4e555b;"' : ''}>
           <input name="group${ticket.id}" type="radio" name="options" id="option2" autocomplete="off" ${ticket.etat == 'travail' ? 'checked' : ''}> Travail
         </label>
-        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'fini', ${JSON.stringify(ticket).replaceAll('"', "'")})" >
+        <label class="btn btn-secondary" onclick="modification(${ticket.id}, 'fini', ${JSON.stringify(ticket).replaceAll('"', "'")});selectBtn(event)" ${ticket.etat == 'fini' ? 'style="background-color:#545b62;border-color:#4e555b;"' : ''}>
           <input name="group${ticket.id}" type="radio" name="options" id="option3" autocomplete="off" ${ticket.etat == 'fini' ? 'checked' : ''}> Complété
         </label><br>
         <label class="btn btn-secondary">
@@ -73,6 +72,18 @@ request.onload = () => {
     table.appendChild(newTd);
   });
 
+}
+
+const selectBtn = (event) => {
+  let siblings = Array.from(event.target.parentElement.children);
+
+  siblings.forEach(element => {
+    if (element != event.target) {
+      element.style = "";
+    } else {
+      element.style = "background-color:#545b62;border-color:#4e555b;";
+    }
+  });
 }
 
 const modification = (id, etat, ticket) => {
@@ -99,7 +110,6 @@ const modification = (id, etat, ticket) => {
 
 const supprimer = (event,id) => {
   let formData = new FormData();
-  console.log(event.target)
   formData.append("id", id)
 
   const request = new XMLHttpRequest();
