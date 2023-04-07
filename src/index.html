@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="favicon.png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
-    </style>       
+    </style>
     <title>Contactez-Nous</title>
 </head>
 
@@ -20,34 +19,45 @@
         <h1>Requête de Bac - Ville de Gatineau</h1>
     </header>
     <main>
-        <p id="formulaire" class="display-4">Formulaire à Remplir ou Appelez au <a href="tel:311" id="_311">311</a></p>
+        <div id="formulaire" class="display-4">Formulaire à Remplir ou Appelez au <a href="tel:311" id="_311">311</a></div>
         <p id="ticket"></p>
-        <!-- <form onsubmit="validateform()" id="form" action="submitted.html" class=""> -->
-        <form onsubmit="validateform()" id="form" >
-            <label class="nameLab" for="prenom">Prénom: </label>
-            <label class="nameLab" for="nom">Nom: </label>
-            <span>
-                <input type="text" placeholder="John" class="names" id="prenom" >
-                <input type="text" placeholder="Smith" class="names" id="nom"  >
-                <div class="errors nameErr" id="prenomErr"></div>
-                <div class="errors nameErr" id="nomErr"></div>
-            </span>
+        <form onsubmit="validateform()" id="form">
+            <div class="container">
+                <div class="hcontainer">
+                    <label for="prenom">Prénom: </label>
+                    <label for="nom">Nom: </label>
+                </div>
+                <div class="hcontainer">
+                    <input type="text" placeholder="John" class="names" id="prenom">
+                    <input type="text" placeholder="Smith" class="names" id="nom">
+                </div>
+                <div class="hcontainer">
+                    <div class="errors nameErr" id="prenomErr"></div>
+                    <div class="errors nameErr" id="nomErr"></div>
+                </div>
+            </div>
+
+            <div class="sep"></div>
             <label for="email">Adresse Courriel:</label>
-            <input type="email" placeholder="example@email.com" id="email" >
+            <input type="email" placeholder="example@email.com" id="email">
             <div class="errors" id="emailErr"></div>
-    
+
+            <div class="sep"></div>
             <label for="tel">Numéro Téléphone:</label>
-            <input type="tel" placeholder="819-123-4567" id="tel" >
+            <input type="tel" placeholder="819-123-4567" id="tel">
             <div class="errors" id="telErr"></div>
-    
+
+            <div class="sep"></div>
             <label for="addr">Adresse:</label>
-            <input type="tel" placeholder="123 Main St" id="addr" >
+            <input type="tel" placeholder="123 Main St" id="addr">
             <div class="errors" id="addrErr"></div>
-    
+
+            <div class="sep"></div>
             <label for="bac">Numero de Bac:</label>
-            <input type="text" placeholder="###" id="bac" ></input>
+            <input type="text" placeholder="###" id="bac"></input>
             <div class="errors" id="bacErr"></div>
-    
+
+            <div class="sep"></div>
             <label for="piece">Pièce Endommagée:</label>
             <select name="piece" id="piece">
                 <option value="unselected">-</option>
@@ -56,7 +66,8 @@
                 <option value="roues">Roues</option>
             </select>
             <div class="errors" id="pieceErr"></div>
-    
+
+            <div class="sep"></div>
             <label for="type">Type de Bac:</label>
             <select name="type" id="type">
                 <option value="unselected">-</option>
@@ -69,15 +80,18 @@
                 <option value="gris240">Bac Gris - 240</option>
             </select>
             <div class="errors" id="typeErr"></div>
-    
+
+            <div class="sep"></div>
             <label for="probleme">Décrivez votre problème:</label>
-            <textarea type="message" placeholder="Les ratons laveurs ont volé ma poubelle!!!" id="probleme" ></textarea>
+            <textarea type="message" placeholder="Les ratons laveurs ont volé ma poubelle!!!" id="probleme"></textarea>
             <div class="errors" id="probErr"></div>
-    
+
+            <div class="sep"></div>
             <input type="submit" value="Envoyer" id="btnSub" class="btn btn-primary">
-    
-        </form>    
+
+        </form>
     </main>
+
     <script src="./index.js"></script>
 </body>
 
