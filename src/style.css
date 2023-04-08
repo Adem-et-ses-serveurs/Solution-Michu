@@ -183,13 +183,41 @@ textarea {
 
 #table {
     width: 90%;
-    padding: 2em 2em;
+    padding: 1.5rem;
     margin: 0 auto;
-    border: rgba(0, 115, 255, 0.648) 3px solid;
-    background-color: rgba(75, 70, 70, 0.71);
-    border-radius: 1em;
+    border: none;
+    border-radius: .25rem;
+    background-color: #242424b5;
     color: white;
     backdrop-filter: blur(12px);
+}
+
+thead tr th::before {
+    content: "";
+    height: 100%;
+    width: 2px;
+    background-color: white;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+thead tr th {
+    position: relative;
+}
+
+thead tr th:last-child::after {
+    content: "";
+    height: 100%;
+    width: 2px;
+    background-color: white;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+tbody > tr {
+    background-color: #484848b5;
 }
 
 btn {
