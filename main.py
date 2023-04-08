@@ -49,29 +49,7 @@ def supprimer():
     except:
         return Response(status=400)
     
-    # with open(fichier, 'r') as f:
-    #     tickets = json.load(f)
-
-    # if id != 0:
-    #     index = None
-    #     for i, ticket in enumerate(tickets):
-    #         if ticket['id'] == id:
-    #             index = i
-    # else:
-    #     index = 0
-
-    # if index == None:
-    #     return Response(status=400)
-
-    # del tickets[index]
-    
-    # with open(fichier, 'w') as f:
-    #     if len(tickets) == 0:
-    #         f.write('[]')
-    #     else:
-    #         f.write(json.dumps(tickets))
-
-    ticket = db.session.query(Ticketer).get(id)
+    ticket = db.session.get(Ticketer, id)
     db.session.delete(ticket)
     db.session.commit()
 
@@ -83,7 +61,6 @@ def get_all():
     if autorisation == None or autorisation not in autorises:
         return Response(status=401)
 
-    #resp = make_response(send_file(fichier, mimetype="application/json"))
     tickets = Ticketer.query.all()
     resp = flask.jsonify(Ticketer.serialize_list(tickets))
     resp.headers['Access-Control-Allow-Origin'] = '*'
@@ -95,10 +72,6 @@ def modifier():
     if autorisation == None or autorisation not in autorises:
         return Response(status=401)
     
-    tickets = None
-    with open(fichier, 'r') as f:
-        tickets  = json.load(f)
-
     nom = request.form.get("nom")
     prenom = request.form.get("prenom")
     courriel = request.form.get("courriel")
@@ -118,8 +91,8 @@ def modifier():
     except:
         return Response(status=400)
 
-    ticket = db.session.query(Ticketer).get(id)
-    prev_etat = ticket.etat.copy()
+    ticket = db.session.get(Ticketer, id)
+    prev_etat = ticket.etat
     ticket.etat = etat
     db.session.commit()
 
@@ -127,7 +100,8 @@ def modifier():
 
     @resp.call_on_close
     def on_close():
-        tickets = Ticketer.query.all()
+        with app.app_context():
+            tickets = Ticketer.query.all()
 
         workbook = xlsxwriter.Workbook('Bon_de_travail.xlsx')
         worksheet = workbook.add_worksheet()
@@ -154,13 +128,13 @@ def modifier():
         row = 1
 
         for ticket in tickets:
-            if ticket['etat'] == 'travail':
-                worksheet.write(row, 0, ticket['id'])
-                worksheet.write(row, 1, ticket['adresse'].split()[0])
-                worksheet.write(row, 2, ' '.join(ticket['adresse'].split()[1:]).upper())
-                worksheet.write(row, 3, ticket['piece'].upper())
+            if ticket.etat == 'travail':
+                worksheet.write(row, 0, ticket.id)
+                worksheet.write(row, 1, ticket.adresse.split()[0])
+                worksheet.write(row, 2, ' '.join(ticket.adresse.split()[1:]).upper())
+                worksheet.write(row, 3, ticket.piece.upper())
 
-                worksheet.write(row, types[ticket['type']], '1')
+                worksheet.write(row, types[ticket.type_bac], '1')
 
                 row += 1
 
@@ -173,14 +147,14 @@ def modifier():
         if etat == "travail" or prev_etat == "travail":
             visits = {}
             for ticket in tickets:
-                if ticket['etat'] != 'travail':
+                if ticket.etat != 'travail':
                     continue
 
-                res = requests.get(f'https://nominatim.openstreetmap.org/search?q={ticket["adresse"]}&format=json')
+                res = requests.get(f'https://nominatim.openstreetmap.org/search?q={ticket.adresse}&format=json')
                 res_json = res.json()
-                visits[ticket['id']] = {
+                visits[ticket.id] = {
                     "location": {
-                        "name": ticket['adresse'],
+                        "name": ticket.adresse,
                         "lng": res_json[0]['lon'],
                         "lat": res_json[0]['lat'],
                     }
