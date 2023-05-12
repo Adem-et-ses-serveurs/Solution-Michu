@@ -8,7 +8,21 @@ This prototype was created as a project for [UHack 2023](https://www.peso-outaou
 
 This prototype shows the possibility of an efficient system in the interaction between citizens and their city when it comes time to doing repairs or replacements of damaged garbage bins, but this system could be extended to many other facets of city life, like sending complaints or suggestions to local authorities. This prototype can also be integrated into a mailing service to send updates to the citizen to keep the citizen in the loop. This does not have to be limited to only interactions between citizens and their city, this is just the challenge that was brought up to solve at the conception of this prototype, it could be used for many more types of interactions such as interactions between companies and their clients or a freelancer and their clients for example.
 
-## How to use this
+# How to use this
+
+## Dependecies:
+### Git:
+ - Windows: https://github.com/git-for-windows/git/releases/download/v2.40.1.windows.1/Git-2.40.1-64-bit.exe 
+ - Linux: `sudo apt install git-all`
+### Python
+ - Windows: https://www.python.org/ftp/python/3.11.3/python-3.11.3-amd64.exe
+ - Linux: Python should already be installed!
+ - **Python extensions:**
+	 -  Flask: `pip install Flask`
+	 -  XLSX Writer: `pip install XlsxWriter`
+	 - SQL Alchemy: `pip install SQLAlchemy`
+
+## Building
 
 > __Warning__
 > **This is a prototype and should not be used in any type of production environment!**
